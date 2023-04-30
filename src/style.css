@@ -23,6 +23,10 @@ button {
   text-transform: uppercase;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 h1 {
   font-size: 20px;
   text-align:center;
@@ -37,4 +41,9 @@ textarea {
   height: 200px;
   background: #00b800;
   padding: 10px;
+}
+
+textarea:disabled {
+  background-color: #A5A2A2;
+  cursor: not-allowed;
 }
