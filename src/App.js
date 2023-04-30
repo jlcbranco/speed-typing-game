@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 function App() {
 
     const [text, setText] = useState("");
+    const [countdown, setCountdown] = useState(3);
 
     function handleTextChange(event) {
         const {value} = event.target;
@@ -14,6 +15,12 @@ function App() {
         return wordsArr.filter(word => word !== "").length;
     }
 
+    useEffect(() => {
+        const timeoutID = setTimeout(() => {
+            countdown !== 0 ? setCountdown(time => time - 1) : clearTimeout(timeoutID);
+        }, 1000);
+    }, [countdown]);
+
     return (
         <main>
             <h1>How fast do you type?</h1>
@@ -22,7 +29,7 @@ function App() {
                 onChange={handleTextChange}
                 value={text}
             />
-            <h4>Time remaining:</h4>
+            <h4>Time remaining: {countdown}</h4>
             <button onClick={() => console.log(handleCountWords(text))}>Start</button>
             <h1>Word count:</h1>
         </main>
