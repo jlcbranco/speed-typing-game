@@ -4,6 +4,7 @@ function App() {
 
     const [text, setText] = useState("");
     const [countdown, setCountdown] = useState(3);
+    const [isGameRuning, setIsGameRuning] = useState(false);
 
     function handleTextChange(event) {
         const {value} = event.target;
@@ -16,10 +17,14 @@ function App() {
     }
 
     useEffect(() => {
-        const timeoutID = setTimeout(() => {
-            countdown !== 0 ? setCountdown(time => time - 1) : clearTimeout(timeoutID);
-        }, 1000);
-    }, [countdown]);
+            if(isGameRuning && countdown > 0) {
+                setTimeout(() => {
+                    setCountdown(time => time - 1)
+                }, 1000);
+            } else if(countdown === 0) {
+                setIsGameRuning(false);
+            };
+    }, [countdown, isGameRuning]);
 
     return (
         <main>
@@ -30,7 +35,7 @@ function App() {
                 value={text}
             />
             <h4>Time remaining: {countdown}</h4>
-            <button onClick={() => console.log(handleCountWords(text))}>Start</button>
+            <button onClick={() => setIsGameRuning(true)}>Start</button>
             <h1>Word count:</h1>
         </main>
     );
