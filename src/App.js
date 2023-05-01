@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 function App() {
 
     const STARTING_TIME = 5;
-
     const [text, setText] = useState("");
     const [countdown, setCountdown] = useState(STARTING_TIME);
     const [isGameRuning, setIsGameRuning] = useState(false);
     const [wordCount, setWordCount] = useState(0);
-    const [disableButton, setDisableButton] = useState(false);
+    const inputRef = useRef(null);
 
     function handleTextChange(event) {
         const {value} = event.target;
@@ -24,6 +23,8 @@ function App() {
         setIsGameRuning(true);
         setCountdown(STARTING_TIME);
         setText("");
+        inputRef.current.disabled = false;  //force textarea enabled in order to focus() works
+        inputRef.current.focus();
     }
 
     function endGame() {
@@ -45,6 +46,7 @@ function App() {
         <main>
             <h1>How fast do you type?</h1>
             <textarea 
+                ref={inputRef}
                 onChange={handleTextChange}
                 value={text}
                 disabled={!isGameRuning} 
@@ -52,7 +54,8 @@ function App() {
             <h4>Time remaining: {countdown}</h4>
             <button 
                 disabled={isGameRuning} 
-                onClick={startGame}>Start
+                onClick={startGame}
+            >Start
             </button>
             <h1>Word count:{wordCount}</h1>
         </main>
